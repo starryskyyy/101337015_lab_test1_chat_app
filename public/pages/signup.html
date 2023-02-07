@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Test | SignUp</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+</head>
+
+<body>
+
+    <form id="login-form" method="POST">
+        <input type="text" id="username" name="username" placeholder="Username">
+        <input type="firstname" id="firstname" name="firstname" placeholder="First name">
+         <input type="lastname" id="lastname" name="lastname" placeholder="Last Name">
+        <input type="password" id="password" name="password" placeholder="Password">
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <p id="error-message"></p>
+    
+    <script>
+        $('#login-form').submit(function (event) {
+            event.preventDefault();
+
+            const username = $('#username').val();
+            const firstname = $('#firstname').val();
+            const lastname = $('#lastname').val();
+            const password = $('#password').val();
+
+            $.post('/signup', { username, firstname, lastname, password })
+                .done(function () {
+                    window.location.href = '/';
+                })
+                .fail(function (err) {
+                    if (err.status === 400) {
+                        $('#error-message').text(err.responseText);
+                    }
+                    else {
+                        $('#error-message').text('User already exists');
+                    }
+                });
+        });
+    </script>
+</body>
+
+</html>
